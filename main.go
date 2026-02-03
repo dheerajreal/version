@@ -81,13 +81,18 @@ func main() {
 // Help
 // ─────────────────────────────────────────────────────────────
 
+// made with `figlet -f future version``
 var helpMessage = `
-Version: a version checker cli
+╻ ╻┏━╸┏━┓┏━┓╻┏━┓┏┓╻
+┃┏┛┣╸ ┣┳┛┗━┓┃┃ ┃┃┗┫
+┗┛ ┗━╸╹┗╸┗━┛╹┗━┛╹ ╹
+
+A version checker cli
 Usage:
 
 version                # prints this message
 version --version      # Show version of version (meta)
-version <toolname>     # Show a specific tool
+version <toolname>     # Show version of a specific tool
 
 Options:
 	--json             # Output in JSON format
