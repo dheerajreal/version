@@ -42,13 +42,13 @@ func main() {
 
 	if showAll {
 		for _, t := range l.Tools {
-			results = append(results, l.DetectTool(t))
+			results = append(results, t.DetectToolVersion())
 		}
 	} else if toolName != "" {
 		found := false
 		for _, t := range l.Tools {
 			if strings.EqualFold(toolName, t.Name) || strings.EqualFold(toolName, t.Binary) {
-				results = append(results, l.DetectTool(t))
+				results = append(results, t.DetectToolVersion())
 				found = true
 				break
 			}
@@ -65,15 +65,7 @@ func main() {
 
 	} else {
 		for _, r := range results {
-			path := r.Path
-			if path == "" {
-				path = "not found"
-			}
-			version := r.Version
-			if version == "" {
-				version = "unknown"
-			}
-			fmt.Printf("%-15s %10s  %s\n", r.Name, version, path)
+			r.PrintToolVersionResult()
 		}
 	}
 }

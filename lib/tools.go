@@ -3,6 +3,7 @@ package lib
 import (
 	"bytes"
 	"context"
+	"fmt"
 	"os/exec"
 	"regexp"
 	"strings"
@@ -21,6 +22,17 @@ type ToolVersionResult struct {
 	Path    string `json:"path"`
 }
 
+func (r ToolVersionResult) PrintToolVersionResult(){
+	path := r.Path
+	if path == "" {
+		path = "not found"
+	}
+	version := r.Version
+	if version == "" {
+		version = "unknown"
+	}
+	fmt.Printf("%-15s %10s  %s\n", r.Name, version, path)
+}
 
 var Tools = []Tool{
 	// Self
@@ -49,7 +61,7 @@ var versionRe = regexp.MustCompile(`(\d+\.\d+(?:\.\d+)?(?:[-+.]\w+)*)`)
 
 
 
-func DetectTool(t Tool) ToolVersionResult {
+func (t Tool) DetectToolVersion() ToolVersionResult {
 	result := ToolVersionResult{Name: t.Name}
 	path := which(t.Binary)
 	if path == "" {
