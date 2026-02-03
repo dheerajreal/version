@@ -1,16 +1,42 @@
-#!/bin/bash
-set -e
+#!/usr/bin/env bash
+set -euo pipefail
 
-# Output folder
-mkdir -p dist
+NAME=version
+VERSION=0.0.1-dev
+DIST=dist
 
-# Linux x86_64
-GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -o dist/version-linux-amd64 main.go
-# Linux ARM64
-GOOS=linux GOARCH=arm64 go build -ldflags="-s -w" -o dist/version-linux-arm64 main.go
-# macOS x86_64
-GOOS=darwin GOARCH=amd64 go build -ldflags="-s -w" -o dist/version-macos-amd64 main.go
-# macOS ARM64 (M1/M2)
-GOOS=darwin GOARCH=arm64 go build -ldflags="-s -w" -o dist/version-macos-arm64 main.go
-# Windows x86_64
-GOOS=windows GOARCH=amd64 go build -ldflags="-s -w" -o dist/version-windows-amd64.exe main.go
+mkdir -p "$DIST"
+
+build() {
+    local os=$1
+    local arch=$2
+    local ext=$3
+    
+    echo "→ Building $os/$arch"
+    
+    CGO_ENABLED=0 \
+    GOOS=$os \
+    GOARCH=$arch \
+    go build \
+    -ldflags="-s -w -X main.version=$VERSION" \
+    -o "$DIST/${NAME}_${VERSION}_${os}_${arch}${ext}"
+}
+
+# Linux
+build linux amd64 ""
+build linux arm64 ""
+
+# macOS
+build darwin amd64 ""
+build darwin arm64 ""
+
+# Windows
+build windows amd64 ".exe"
+
+# Checksums
+(
+    cd "$DIST"
+    sha256sum * > checksums.txt
+)
+
+echo "✓ Done"
