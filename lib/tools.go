@@ -15,10 +15,10 @@ type Tool struct {
 	Args   []string
 }
 
-type ToolResult struct {
+type ToolVersionResult struct {
 	Name    string `json:"name"`
-	Version string `json:"version,omitempty"`
-	Path    string `json:"path,omitempty"`
+	Version string `json:"version"`
+	Path    string `json:"path"`
 }
 
 
@@ -49,8 +49,8 @@ var versionRe = regexp.MustCompile(`(\d+\.\d+(?:\.\d+)?(?:[-+.]\w+)*)`)
 
 
 
-func DetectTool(t Tool) ToolResult {
-	result := ToolResult{Name: t.Name}
+func DetectTool(t Tool) ToolVersionResult {
+	result := ToolVersionResult{Name: t.Name}
 	path := which(t.Binary)
 	if path == "" {
 		return result

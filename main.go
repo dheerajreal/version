@@ -38,7 +38,7 @@ func main() {
 		return
 	}
 
-	var results []l.ToolResult
+	var results []l.ToolVersionResult
 
 	if showAll {
 		for _, t := range l.Tools {
