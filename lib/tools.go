@@ -40,16 +40,39 @@ var Tools = []Tool{
 
 	// Languages
 	{"Python", "python3", []string{"--version"}},
+	{"Node.js", "node", []string{"--version"}},
 	{"Go", "go", []string{"version"}},
+	{"Rust", "rustc", []string{"--version"}},
+	{"Java", "java", []string{"--version"}},
+	{"Ruby", "ruby", []string{"--version"}},
+	{"Perl", "perl", []string{"-v"}},
+	{"Elixir", "elixir", []string{"--version"}},
+	{"C / C++", "gcc", []string{"--version"}},
+	{"Clang", "clang", []string{"--version"}},
+
 
 	// Package managers
+	{"npm", "npm", []string{"--version"}},
+	{"yarn", "yarn", []string{"--version"}},
+	{"pnpm", "pnpm", []string{"--version"}},
+	{"bun", "bun", []string{"--version"}},
 	{"pip", "pip3", []string{"--version"}},
 	{"uv", "uv", []string{"--version"}},
+	{"cargo", "cargo", []string{"--version"}},
+	{"gem", "gem", []string{"--version"}},
+	{"Homebrew", "brew", []string{"--version"}},
+
 
 	// Dev tools
 	{"Git", "git", []string{"--version"}},
 	{"Docker", "docker", []string{"--version"}},
 	{"kubectl", "kubectl", []string{"version", "--client"}},
+
+	{"Black", "black", []string{"--version"}},
+	{"Ruff", "ruff", []string{"--version"}},
+	{"SQLite", "sqlite3", []string{"--version"}},
+	{"jq", "jq", []string{"--version"}},
+	{"curl", "curl", []string{"--version"}},
 
 }
 
