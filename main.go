@@ -38,6 +38,11 @@ func main() {
 		return
 	}
 
+	if showAll && toolName != "" {
+		fmt.Println("cannot pass --all with tool name")
+		os.Exit(1)
+	}
+
 	var results []checker.ToolVersionResult
 
 	if showAll {
