@@ -5,11 +5,11 @@ import (
 	"fmt"
 	"os"
 	"strings"
+
+	l "github.com/dheerajreal/version/lib"
 )
 
-var (
-	version = "0.0.1-dev"
-)
+
 
 
 func main() {
@@ -34,21 +34,21 @@ func main() {
 	}
 
 	if !showAll && toolName == "" {
-		printHelp()
+		fmt.Println(helpMessage)
 		return
 	}
 
-	var results []ToolResult
+	var results []l.ToolResult
 
 	if showAll {
-		for _, t := range Tools {
-			results = append(results, detectTool(t))
+		for _, t := range l.Tools {
+			results = append(results, l.DetectTool(t))
 		}
 	} else if toolName != "" {
 		found := false
-		for _, t := range Tools {
+		for _, t := range l.Tools {
 			if strings.EqualFold(toolName, t.Name) || strings.EqualFold(toolName, t.Binary) {
-				results = append(results, detectTool(t))
+				results = append(results, l.DetectTool(t))
 				found = true
 				break
 			}
@@ -77,3 +77,30 @@ func main() {
 		}
 	}
 }
+
+
+
+// ─────────────────────────────────────────────────────────────
+// Help
+// ─────────────────────────────────────────────────────────────
+
+var helpMessage = `
+Version: a version checker cli
+Usage:
+
+version                # prints this message
+version --version      # Show version of version (meta)
+version <toolname>     # Show a specific tool
+
+Options:
+	--json             # Output in JSON format
+	--all              # Show all tools
+`
+
+// ─────────────────────────────────────────────────────────────
+// version
+// ─────────────────────────────────────────────────────────────
+
+var (
+	version = "0.0.1-dev"
+)

@@ -1,4 +1,4 @@
-package main
+package lib
 
 import (
 	"bytes"
@@ -23,6 +23,9 @@ type ToolResult struct {
 
 
 var Tools = []Tool{
+	// Self
+	{"Version", "version", []string{"--version"}},
+
 	// Languages
 	{"Python", "python3", []string{"--version"}},
 	{"Go", "go", []string{"version"}},
@@ -46,7 +49,7 @@ var versionRe = regexp.MustCompile(`(\d+\.\d+(?:\.\d+)?(?:[-+.]\w+)*)`)
 
 
 
-func detectTool(t Tool) ToolResult {
+func DetectTool(t Tool) ToolResult {
 	result := ToolResult{Name: t.Name}
 	path := which(t.Binary)
 	if path == "" {
