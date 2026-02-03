@@ -6,7 +6,7 @@ import (
 	"os"
 	"strings"
 
-	l "github.com/dheerajreal/version/lib"
+	checker "github.com/dheerajreal/version/lib"
 )
 
 
@@ -38,15 +38,15 @@ func main() {
 		return
 	}
 
-	var results []l.ToolVersionResult
+	var results []checker.ToolVersionResult
 
 	if showAll {
-		for _, t := range l.Tools {
+		for _, t := range checker.Tools {
 			results = append(results, t.DetectToolVersion())
 		}
 	} else if toolName != "" {
 		found := false
-		for _, t := range l.Tools {
+		for _, t := range checker.Tools {
 			if strings.EqualFold(toolName, t.Name) || strings.EqualFold(toolName, t.Binary) {
 				results = append(results, t.DetectToolVersion())
 				found = true
