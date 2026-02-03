@@ -63,7 +63,7 @@ var versionRe = regexp.MustCompile(`(\d+\.\d+(?:\.\d+)?(?:[-+.]\w+)*)`)
 
 func (t Tool) DetectToolVersion() ToolVersionResult {
 	result := ToolVersionResult{Name: t.Name}
-	path := which(t.Binary)
+	path := t.Where()
 	if path == "" {
 		return result
 	}
@@ -92,4 +92,11 @@ func (t Tool) DetectToolVersion() ToolVersionResult {
 	}
 
 	return result
+}
+
+func (t Tool) Where() string {
+	// return binary filepath
+	bin := t.Binary
+	path, _ := exec.LookPath(bin)
+	return path
 }
