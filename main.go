@@ -35,7 +35,7 @@ func main() {
 	}
 
 	if showAll && toolName != "" {
-		fmt.Println("cannot pass --all with tool name")
+		fmt.Fprintln(os.Stderr, "cannot pass --all with tool name")
 		os.Exit(1)
 	}
 
@@ -55,7 +55,7 @@ func main() {
 	if jsonOutput {
 		data, err := json.MarshalIndent(results, "", "  ")
 		if err != nil {
-			fmt.Fprintf(os.Stderr, "Failed to convert to json")
+			fmt.Fprintln(os.Stderr, "Failed to convert to json")
 			os.Exit(1)
 		}
 		fmt.Println(string(data))
