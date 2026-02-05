@@ -116,6 +116,8 @@ func (t Tool) DetectToolVersion() ToolVersionResult {
 	result := ToolVersionResult{Name: t.Name}
 	path := t.Where()
 	if path == "" {
+		result.Path = "Not Found"
+		result.Version = "Unknown"
 		return result
 	}
 	result.Path = path
@@ -129,7 +131,8 @@ func (t Tool) DetectToolVersion() ToolVersionResult {
 	cmd.Stderr = &out
 	err := cmd.Run()
 	if err != nil {
-        return  result
+		result.Version = "Unknown"
+		return result
 	}
 
 	lines := strings.Split(out.String(), "\n")
@@ -151,6 +154,9 @@ func (t Tool) DetectToolVersion() ToolVersionResult {
 func (t Tool) Where() string {
 	// return binary filepath
 	bin := t.Binary
-	path, _ := exec.LookPath(bin)
+	path, err := exec.LookPath(bin)
+	if err != nil {
+		return ""
+	}
 	return path
 }

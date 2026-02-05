@@ -74,7 +74,7 @@ func main() {
 
 	} else {
 		for _, r := range results {
-			if r.Path != "" || !showAll{
+			if r.Path != "Not Found" || !showAll{
 				// print only the ones that are found in PATH
 				r.PrintToolVersionResult()
 			}
