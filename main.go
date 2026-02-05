@@ -74,7 +74,10 @@ func main() {
 
 	} else {
 		for _, r := range results {
-			r.PrintToolVersionResult()
+			if r.Path != "" || !showAll{
+				// print only the ones that are found in PATH
+				r.PrintToolVersionResult()
+			}
 		}
 	}
 }
