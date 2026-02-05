@@ -5,9 +5,11 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"os"
 	"os/exec"
 	"regexp"
 	"strings"
+	"sync"
 	"time"
 )
 
@@ -117,8 +119,6 @@ var Tools = []Tool{
 
 var versionRe = regexp.MustCompile(`(\d+\.\d+(?:\.\d+)?(?:[-+.]\w+)*)`)
 
-
-
 func (t Tool) DetectToolVersion() ToolVersionResult {
 	result := ToolVersionResult{Name: t.Name}
 	path := t.Where()
@@ -166,4 +166,32 @@ func (t Tool) Where() string {
 		return ""
 	}
 	return path
+}
+
+func DetectAllToolsConcurrently() []ToolVersionResult {
+	var wg sync.WaitGroup
+	resultCh := make(chan ToolVersionResult, len(Tools))
+	sem := make(chan struct{}, 5) // limit concurrency to 5 goroutines
+
+	for _, t := range Tools {
+		wg.Add(1)
+		go func(tool Tool) {
+			defer wg.Done()
+			sem <- struct{}{}        // acquire semaphore
+			defer func() { <-sem }() // release semaphore
+
+			result := tool.DetectToolVersion()
+			resultCh <- result
+		}(t)
+	}
+
+	wg.Wait()
+	close(resultCh)
+
+	var results []ToolVersionResult
+	for r := range resultCh {
+		results = append(results, r)
+	}
+
+	return results
 }

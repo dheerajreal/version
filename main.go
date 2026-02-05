@@ -42,13 +42,11 @@ func main() {
 	var results []checker.ToolVersionResult
 
 	if showAll {
-		for _, t := range checker.Tools {
-			results = append(results, t.DetectToolVersion())
-		}
+		results = checker.DetectAllToolsConcurrently()
 	} else if toolName != "" {
 		tool, err := checker.FindTool(toolName)
 		if err != nil {
-			fmt.Fprintf(os.Stderr, err.Error() +": %s\n", toolName)
+			fmt.Fprintf(os.Stderr, err.Error()+": %s\n", toolName)
 			os.Exit(1)
 		}
 		results = append(results, tool.DetectToolVersion())
@@ -64,7 +62,7 @@ func main() {
 
 	} else {
 		for _, r := range results {
-			if r.Path != "Not Found" || !showAll{
+			if r.Path != "Not Found" || !showAll {
 				// print only the ones that are found in PATH
 				r.PrintToolVersionResult()
 			}
@@ -76,7 +74,7 @@ func main() {
 // Help
 // ─────────────────────────────────────────────────────────────
 
-// made with `figlet -f future version``
+// made with `figlet -f future version“
 var helpMessage = `
 ╻ ╻┏━╸┏━┓┏━┓╻┏━┓┏┓╻
 ┃┏┛┣╸ ┣┳┛┗━┓┃┃ ┃┃┗┫
