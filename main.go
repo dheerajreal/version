@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	checker "github.com/dheerajreal/version/lib"
+	"github.com/dheerajreal/version/lib/checker"
 )
 
 func main() {
