@@ -32,7 +32,7 @@ func (r ToolVersionResult) PrintToolVersionResult() {
 		fmt.Fprintf(os.Stderr, "Wrong fallback values")
 		os.Exit(1)
 	}
-	fmt.Printf("%-15s %10s  %s\n", r.Name, version, path)
+	fmt.Printf("%-15s %-20s  %s\n", r.Name, version, path)
 }
 
 func FindTool(toolname string) (Tool, error) {
@@ -52,7 +52,7 @@ var versionRe = regexp.MustCompile(`(\d+\.\d+(?:\.\d+)?(?:[-+.]\w+)*)`)
 
 func (t Tool) DetectToolVersion() ToolVersionResult {
 	result := ToolVersionResult{Name: t.Name}
-	path := t.Where()
+	path := t.where()
 	if path == "" {
 		result.Path = "Not Found"
 		result.Version = "Unknown"
@@ -89,7 +89,7 @@ func (t Tool) DetectToolVersion() ToolVersionResult {
 	return result
 }
 
-func (t Tool) Where() string {
+func (t Tool) where() string {
 	// return binary filepath
 	bin := t.Binary
 	path, err := exec.LookPath(bin)
