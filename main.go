@@ -33,7 +33,7 @@ func main() {
 		}
 	}
 
-	if !showAll && toolName == "" {
+	if !showAll && toolName == "" || toolName == "--help" {
 		fmt.Println(helpMessage)
 		return
 	}
@@ -65,7 +65,11 @@ func main() {
 	}
 
 	if jsonOutput {
-		data, _ := json.MarshalIndent(results, "", "  ")
+		data, err := json.MarshalIndent(results, "", "  ")
+		if err != nil{
+			fmt.Fprintf(os.Stderr, "Failed to convert to json")
+			os.Exit(1)
+		}
 		fmt.Println(string(data))
 
 	} else {

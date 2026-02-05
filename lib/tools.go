@@ -127,7 +127,10 @@ func (t Tool) DetectToolVersion() ToolVersionResult {
 	var out bytes.Buffer
 	cmd.Stdout = &out
 	cmd.Stderr = &out
-	_ = cmd.Run()
+	err := cmd.Run()
+	if err != nil {
+        return  result
+	}
 
 	lines := strings.Split(out.String(), "\n")
 	for _, l := range lines {
