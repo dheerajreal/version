@@ -8,6 +8,7 @@ import (
 	"os"
 	"os/exec"
 	"regexp"
+	"runtime"
 	"strings"
 	"sync"
 	"time"
@@ -171,7 +172,9 @@ func (t Tool) Where() string {
 func DetectAllToolsConcurrently() []ToolVersionResult {
 	var wg sync.WaitGroup
 	resultCh := make(chan ToolVersionResult, len(Tools))
-	sem := make(chan struct{}, 5) // limit concurrency to 5 goroutines
+	// limit concurrency to (NumCPU/2) + 1 goroutines
+	n := (runtime.NumCPU() / 2) + 1
+	sem := make(chan struct{}, n)
 
 	for _, t := range Tools {
 		wg.Add(1)
