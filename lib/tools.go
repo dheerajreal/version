@@ -3,6 +3,7 @@ package checker
 import (
 	"bytes"
 	"context"
+	"errors"
 	"fmt"
 	"os/exec"
 	"regexp"
@@ -22,16 +23,22 @@ type ToolVersionResult struct {
 	Path    string `json:"path"`
 }
 
-func (r ToolVersionResult) PrintToolVersionResult(){
-	path := r.Path
-	if path == "" {
-		path = "not found"
-	}
-	version := r.Version
-	if version == "" {
-		version = "unknown"
+func (r ToolVersionResult) PrintToolVersionResult() {
+	path, version := r.Path, r.Version
+	if path == "" || version == "" {
+		fmt.Fprintf(os.Stderr, "Wrong fallback values")
+		os.Exit(1)
 	}
 	fmt.Printf("%-15s %10s  %s\n", r.Name, version, path)
+}
+
+func FindTool(toolname string) (Tool, error) {
+	for _, t := range Tools {
+		if strings.EqualFold(toolname, t.Name) || strings.EqualFold(toolname, t.Binary) {
+			return t, nil
+		}
+	}
+	return Tool{}, errors.New("Tool not supported")
 }
 
 var Tools = []Tool{

@@ -4,13 +4,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
-	"strings"
 
 	checker "github.com/dheerajreal/version/lib"
 )
-
-
-
 
 func main() {
 	args := os.Args[1:]
@@ -50,23 +46,17 @@ func main() {
 			results = append(results, t.DetectToolVersion())
 		}
 	} else if toolName != "" {
-		found := false
-		for _, t := range checker.Tools {
-			if strings.EqualFold(toolName, t.Name) || strings.EqualFold(toolName, t.Binary) {
-				results = append(results, t.DetectToolVersion())
-				found = true
-				break
-			}
-		}
-		if !found {
-			fmt.Fprintf(os.Stderr, "Unknown tool: %s\n", toolName)
+		tool, err := checker.FindTool(toolName)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, err.Error() +": %s\n", toolName)
 			os.Exit(1)
 		}
+		results = append(results, tool.DetectToolVersion())
 	}
 
 	if jsonOutput {
 		data, err := json.MarshalIndent(results, "", "  ")
-		if err != nil{
+		if err != nil {
 			fmt.Fprintf(os.Stderr, "Failed to convert to json")
 			os.Exit(1)
 		}
@@ -81,8 +71,6 @@ func main() {
 		}
 	}
 }
-
-
 
 // ─────────────────────────────────────────────────────────────
 // Help
