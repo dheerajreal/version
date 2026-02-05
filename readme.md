@@ -27,7 +27,7 @@ Built in Go for speed and elegance
 
 Using Go, like a pro
 ```
-go install github.com/dheerajreal/version/cmd/version@latest
+go install github.com/dheerajreal/version@latest
 ```
 
 
