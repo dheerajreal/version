@@ -29,7 +29,7 @@ func main() {
 		}
 	}
 
-	if !showAll && toolName == "" || toolName == "--help" {
+	if (!showAll && toolName == "") || toolName == "--help" {
 		fmt.Println(helpMessage)
 		return
 	}

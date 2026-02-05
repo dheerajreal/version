@@ -5,7 +5,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"os"
 	"os/exec"
 	"regexp"
 	"runtime"
@@ -29,8 +28,7 @@ type ToolVersionResult struct {
 func (r ToolVersionResult) PrintToolVersionResult() {
 	path, version := r.Path, r.Version
 	if path == "" || version == "" {
-		fmt.Fprintf(os.Stderr, "Wrong fallback values")
-		os.Exit(1)
+		r.Version, r.Path = "Unknown" , "Not Found"
 	}
 	fmt.Printf("%-15s %-20s  %s\n", r.Name, version, path)
 }
@@ -121,7 +119,8 @@ func DetectAllToolsConcurrently() []ToolVersionResult {
 	wg.Wait()
 	close(resultCh)
 
-	var results []ToolVersionResult
+	results := make([]ToolVersionResult, 0, len(toolsList))
+
 	for r := range resultCh {
 		results = append(results, r)
 	}
