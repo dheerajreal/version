@@ -8,6 +8,12 @@ A fast, simple, and oh-so-helpful CLI to check versions of your favorite program
 
 Bonus: get path of the cli in output. No more wondering `where` 😕 it came from.
 
+![Go](https://img.shields.io/badge/Go-1.23-blue?logo=go)
+![CLI](https://img.shields.io/badge/CLI-fast-brightgreen)
+![License](https://img.shields.io/github/license/dheerajreal/version)
+![PkgGoDev](https://pkg.go.dev/badge/github.com/dheerajreal/version)
+[![Go Report Card](https://goreportcard.com/badge/github.com/dheerajreal/version)](https://goreportcard.com/report/github.com/dheerajreal/version)
+
 ## 🚀 Features
 
 Detects versions for languages, package managers, dev tools, and cloud CLIs.
