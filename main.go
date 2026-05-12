@@ -43,7 +43,7 @@ func main() {
 	handleCommand(*jsonOutput, *showAll, toolName)
 }
 
-func handleCommand(jsonOutput bool, showAll bool, toolName string){
+func handleCommand(jsonOutput bool, showAll bool, toolName string) {
 	if !showAll && toolName == "" {
 		flag.Usage()
 		return
