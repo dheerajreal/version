@@ -11,7 +11,7 @@ Bonus: get path of the cli in output. No more wondering `where` 😕 it came fro
 ![Go](https://img.shields.io/badge/Go-1.23-blue?logo=go)
 ![CLI](https://img.shields.io/badge/CLI-fast-brightgreen)
 ![License](https://img.shields.io/github/license/dheerajreal/version)
-![PkgGoDev](https://pkg.go.dev/badge/github.com/dheerajreal/version)
+[![PkgGoDev](https://pkg.go.dev/badge/github.com/dheerajreal/version)](https://pkg.go.dev/github.com/dheerajreal/version)
 [![Go Report Card](https://goreportcard.com/badge/github.com/dheerajreal/version)](https://goreportcard.com/report/github.com/dheerajreal/version)
 
 ## 🚀 Features
@@ -37,7 +37,7 @@ go install github.com/dheerajreal/version@latest
 ```
 
 
-Make sure `$GOPATH/bin` or `$GOBIN` is in your `PATH` — your shell deserves it. 💃
+Make sure `$GOPATH/bin` or `$GOBIN` is in your `PATH`. Your shell deserves it. 💃
 
 ## 🧩 Usage
 
