@@ -2,7 +2,7 @@
 set -euo pipefail
 
 NAME=version
-VERSION=0.0.1-dev
+VERSION=v0.0.2-dev
 DIST=dist
 
 mkdir -p "$DIST"
