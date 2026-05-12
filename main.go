@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"flag"
 	"fmt"
 	"os"
 
@@ -9,28 +10,42 @@ import (
 )
 
 func main() {
-	args := os.Args[1:]
-	jsonOutput := false
-	showAll := false
-	var toolName string
+	jsonOutput := flag.Bool("json", false, "Show output in JSON format")
+	showAll := flag.Bool("all", false, "Show all tools")
+	showVersion := flag.Bool("version", false, "Show version of version")
 
-	for _, a := range args {
-		switch a {
-		case "--json":
-			jsonOutput = true
-		case "--all":
-			showAll = true
-		case "--version":
-			// version --version
-			fmt.Println(version)
-			return
-		default:
-			toolName = a
-		}
+	flag.Usage = func() {
+		fmt.Print(helpMessage)
 	}
 
-	if (!showAll && toolName == "") || toolName == "--help" {
-		fmt.Println(helpMessage)
+	flag.Parse()
+
+	// version --version
+	if *showVersion {
+		fmt.Println(version)
+		return
+	}
+
+	// positional arguments
+	args := flag.Args()
+
+	if len(args) > 1 {
+		fmt.Fprintln(os.Stderr, "too many arguments")
+		os.Exit(1)
+	}
+
+	var toolName string
+
+	if len(args) == 1 {
+		toolName = args[0]
+	}
+
+	handleCommand(*jsonOutput, *showAll, toolName)
+}
+
+func handleCommand(jsonOutput bool, showAll bool, toolName string){
+	if !showAll && toolName == "" {
+		flag.Usage()
 		return
 	}
 
@@ -46,7 +61,7 @@ func main() {
 	} else if toolName != "" {
 		tool, err := checker.FindTool(toolName)
 		if err != nil {
-			fmt.Fprintf(os.Stderr, err.Error()+": %s\n", toolName)
+			fmt.Fprintf(os.Stderr, "%v: %s\n", err, toolName)
 			os.Exit(1)
 		}
 		results = append(results, tool.DetectToolVersion())
@@ -55,7 +70,7 @@ func main() {
 	if jsonOutput {
 		data, err := json.MarshalIndent(results, "", "  ")
 		if err != nil {
-			fmt.Fprintln(os.Stderr, "Failed to convert to json")
+			fmt.Fprintln(os.Stderr, "failed to convert to json")
 			os.Exit(1)
 		}
 		fmt.Println(string(data))
@@ -74,16 +89,20 @@ func main() {
 // Help
 // ─────────────────────────────────────────────────────────────
 
-// made with `figlet -f future version“
+// made with `figlet -f future version`
 var helpMessage = `
 ╻ ╻┏━╸┏━┓┏━┓╻┏━┓┏┓╻
 ┃┏┛┣╸ ┣┳┛┗━┓┃┃ ┃┃┗┫
 ┗┛ ┗━╸╹┗╸┗━┛╹┗━┛╹ ╹
 
-A version checker cli
+A version checker CLI
 Usage:
 
-version                # prints this message
+version [options] <toolname>
+
+Examples:
+
+version                # prints help
 version --version      # Show version of version (meta)
 version <toolname>     # Show version of a specific tool
 
@@ -97,5 +116,5 @@ Options:
 // ─────────────────────────────────────────────────────────────
 
 var (
-	version = "0.0.1-dev"
+	version = "v0.0.2-dev"
 )
