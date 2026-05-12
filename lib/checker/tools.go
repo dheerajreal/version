@@ -27,9 +27,6 @@ type ToolVersionResult struct {
 
 func (r ToolVersionResult) PrintToolVersionResult() {
 	path, version := r.Path, r.Version
-	if path == "" || version == "" {
-		r.Version, r.Path = "Unknown", "Not Found"
-	}
 	fmt.Printf("%-15s %-20s  %s\n", r.Name, version, path)
 }
 
