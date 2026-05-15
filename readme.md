@@ -8,7 +8,7 @@ A fast, simple, and oh-so-helpful CLI to check versions of your favorite program
 
 Bonus: get path of the cli in output. No more wondering `where` 😕 it came from.
 
-![Go](https://img.shields.io/badge/Go-1.23-blue?logo=go)
+![Go](https://img.shields.io/badge/Go-1.25-blue?logo=go)
 ![CLI](https://img.shields.io/badge/CLI-fast-brightgreen)
 ![License](https://img.shields.io/github/license/dheerajreal/version)
 [![PkgGoDev](https://pkg.go.dev/badge/github.com/dheerajreal/version)](https://pkg.go.dev/github.com/dheerajreal/version)
